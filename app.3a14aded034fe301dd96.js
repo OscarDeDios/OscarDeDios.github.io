@@ -3923,10 +3923,6 @@ module.exports = Math.scale || function scale(x, inLow, inHigh, outLow, outHigh)
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _oscappsAccordion = __webpack_require__(131);
 
 var _oscappsAccordion2 = _interopRequireDefault(_oscappsAccordion);
@@ -3936,7 +3932,7 @@ __webpack_require__(338);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
-  var instance = new _oscappsAccordion2.default(document.getElementById('OscappsAccordion-ajax'), {
+  var instance = new _oscappsAccordion2.default(document.getElementById('OscappsAccordion-example-1'), {
     ajaxContent: [{
       indexSection: 1,
       url: './assets/ajaxContent1.html'
@@ -3944,14 +3940,46 @@ document.addEventListener('DOMContentLoaded', function () {
       indexSection: 3,
       url: './assets/ajaxContent2.html'
     }],
-    animationTime: 800,
+    animationTime: 2000
+  });
+
+  var callback = function callback() {
+    alert('Testing awesome plugin');
+  };
+
+  var instance2 = new _oscappsAccordion2.default(document.getElementById('OscappsAccordion-example-2'), {
+    onOpen: callback,
     arrowIcon: false
   });
 
-  console.log(instance.isOpen(2));
-});
+  var instance3 = new _oscappsAccordion2.default(document.getElementById('OscappsAccordion-example-3'));
 
-exports.default = _oscappsAccordion2.default;
+  console.log(instance);
+  console.log(instance2);
+  console.log(instance3);
+
+  document.getElementById('show-first').addEventListener('click', function () {
+    instance3.open(0);
+  });
+  document.getElementById('close-first').addEventListener('click', function () {
+    instance3.close(0);
+  });
+  document.getElementById('toggle-first').addEventListener('click', function () {
+    instance3.toggle(0);
+  });
+  document.getElementById('show-all').addEventListener('click', function () {
+    instance3.openAll();
+  });
+  document.getElementById('close-first').addEventListener('click', function () {
+    instance3.close(0);
+  });
+  document.getElementById('close-all').addEventListener('click', function () {
+    instance3.closeAll(0);
+  });
+  document.getElementById('is-open').addEventListener('click', function () {
+    alert(instance3.isOpen(0));
+  });
+});
 
 /***/ }),
 /* 131 */
@@ -3973,7 +4001,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const OscappsAccordionElements = document.querySelectorAll('.OscappsAccordion:not(.is-instanced)')
+  const OscappsAccordionElements = document.querySelectorAll('.OscappsAccordion:not(.is-instance)')
   let instance = []
 
   for (let OscappsAccordionElement of OscappsAccordionElements) {
@@ -10067,7 +10095,7 @@ const HEADER_SECTION_SELECTOR = `.${DEFAULT_OSCAPPS_ACCORDION_CLASS_NAME} > dt`
 const CONTENT_SECTION_SELECTOR = `.${DEFAULT_OSCAPPS_ACCORDION_CLASS_NAME} > dd`
 const ACTIVE_CLASS_NAME = 'is-active'
 const HIDE_ICON_CLASS_NAME = 'OscappsAccordion--hide-icon'
-const MULTIPLE_SELECTION_CLASS_NAME = 'multiple-selection'
+const MULTIPLE_SELECTION_CLASS_NAME = 'is-multiple-selection'
 const TOGGLE_OSCAPPS_ACCORDION_TAG_NAME = 'DT'
 
 const AJAX_SPINNER = '<div class="OscappsSpinner"><div class="OscappsSpinner--ring"></div></div>'
@@ -10365,6 +10393,14 @@ class OscappsAccordion {
     const sectionsHeader = this._getHeaderSections()
 
     return sectionsHeader[indexSection] && __WEBPACK_IMPORTED_MODULE_0__lib_DomLib__["a" /* default */].hasClass(sectionsHeader[indexSection], ACTIVE_CLASS_NAME)
+  }
+
+  toggle (indexSection) {
+    if (this.isOpen(indexSection)) {
+      this.close(indexSection)
+    } else {
+      this.open(indexSection)
+    }
   }
 
   _getElementSectionByIndex (indexSection) {
